@@ -89,8 +89,12 @@ class AgedBrieUpdater(ItemUpdater):
     """Aged Brie increases in quality the older it gets."""
 
     def _update_quality(self, item):
-        increase = 2 if item.sell_in < 0 else 1
+        increase = self._get_quality_increase(item.sell_in)
         item.quality = self._clamp(item.quality + increase)
+
+    def _get_quality_increase(self, sell_in):
+        """Return how much quality should increase based on sell_in days."""
+        return 2 if sell_in < 0 else 1
 
 
 class SulfurasUpdater(ItemUpdater):
